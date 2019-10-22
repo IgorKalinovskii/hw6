@@ -6,12 +6,14 @@ data1 = {'title':'Происхождение видов', 'author':'Чарльз
 
 r_post = requests.post(base_url+'books/', data1) #Создаём книгу POST /books/, вы запоминаете его id.
 id = r_post.json()['id']
-print(r_post.json())
 print(id)
 
 r_get = requests.get(base_url+'books/' + str(id) + '/') #Проверяете, что она создалась и доступна по ссылке GET/books/[id]
-print(r_get.json())
+print(r_post.json())
 print(r_post.json() == r_get.json())
+print(r_post.json()['title'] == 'Происхождение видов')
+print(r_post.json()['author'] == 'Чарльз Дарвин')
+print(r_get.json()['id'] == r_post.json()['id'])
 
 r_get_all_books = requests.get(base_url+'books/') #Проверяете, что она есть в списке книг по запросу GET /books/
 print(r_post.json() in r_get_all_books.json())
@@ -21,7 +23,13 @@ r_post1 = requests.put(base_url+'books/' + str(id) + '/', put_data)       #Из�
 print(r_post1.status_code)
 
 r_get1 = requests.get(base_url+'books/' + str(id) + '/') #Проверяете, что она изменилась и доступна по ссылке /books/[id]
+print(r_get1.status_code)
+print(r_get1.json())
 print(r_post1.json() == r_get1.json())
+print(r_get1.json()['title'] == 'Война миров')
+print(r_get1.json()['author'] == 'Герберт Уэллс')
+print(r_get1.json()['id'] == r_post1.json()['id'])
+
 
 r_get_all_books_2 = requests.get(base_url+'books/') # Проверяете, что она есть в списке книг по GET /books/ с новыми данными.
 print(r_post1.json() in r_get_all_books_2.json())
